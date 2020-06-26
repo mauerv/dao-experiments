@@ -4,7 +4,7 @@ pragma solidity ^0.6.9;
  * A simple DAO where people apply to get in, and the contract owner accepts or rejects them.
  */
 
- import "@openzeppelin/access/Ownable.sol";
+ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract BouncerDAO is Ownable {
 
