@@ -32,4 +32,8 @@ contract LeanBouncerDAO is Ownable {
 			rejected[applicant] = true;
 		}
 	}
+
+	function getApplications() external view returns(address[] memory) {
+		return applications;
+	}
 }
