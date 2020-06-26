@@ -1,29 +1,39 @@
 // "SPDX-License-Identifier: UNLICENSED"
 pragma solidity ^0.6.9;
 /**
- * My second iteration of BouncerDAO. Applicants only have one chance to get in. Better array management.
+ * My second iteration of BouncerDAO. Applicants only have one chance to get in. 
  */
 
  import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract BouncerDAO is Ownable {
-	address[] public applicants;
+contract MeanBouncerDAO is Ownable {
+	address[] public applications;
 	mapping(address => bool) public members;
 	mapping(address => bool) public rejected;
+	mapping(address => bool) public applicants;
 
 	constructor() public {
-    members[msg.sender] = true;
+    	members[msg.sender] = true;
 	}
 
 	function requestMembership() external {
-		applicants.push(msg.sender);
+		require(members[msg.sender] == false);
+		require(rejected[msg.sender] == false);
+		require(applicants[msg.sender] == false);
+
+		applicants[msg.sender] = true;
+		applications.push(msg.sender);
 	}
 
-	function approveMembership(address _applicant) external onlyOwner {
-		for (uint i = 0; i < applicants.length; i++) {
-			if (applicants[i] == _applicant) {
-				delete applicants[i];
-				members[_applicant] = true;
+	function processMembership(address applicant, bool accepted) external onlyOwner {
+		for (uint i = 0; i < applications.length; i++) {
+			if (applications[i] == applicant) {
+				delete applications[i];
+				if (accepted) {
+					members[applicant] = true;
+				} else {
+					rejected[applicant] = true;
+				}
 			}
 		}
 	}
