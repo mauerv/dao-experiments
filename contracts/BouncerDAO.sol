@@ -16,7 +16,7 @@ contract BouncerDAO is Ownable {
 	address[] public applicants;
 
 	constructor() public {
-    // TODO
+    members[msg.sender] = Member(true);
 	}
 	function requestMembership() external {
 
