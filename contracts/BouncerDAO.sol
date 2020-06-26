@@ -18,10 +18,17 @@ contract BouncerDAO is Ownable {
 	constructor() public {
     members[msg.sender] = Member(true);
 	}
+
 	function requestMembership() external {
-
+		applicants.push(msg.sender);
 	}
-	function approveMembership() external {
 
+	function approveMembership(address _applicant) external onlyOwner {
+		for (uint i = 0; i < applicants.length; i++) {
+			if (applicants[i] == _applicant) {
+				delete applicants[i];
+				members[_applicant] = Member(true);
+			}
+		}
 	}
 }
